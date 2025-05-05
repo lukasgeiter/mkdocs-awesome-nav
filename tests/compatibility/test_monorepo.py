@@ -194,6 +194,32 @@ def test_nav_vanilla_strict(mkdocs, logs):
 
     assert logs.from_plugin == [logs.warning(WARNING_MESSAGE)]
 
+def test_nav_vanilla_strict2(mkdocs, logs):
+    """
+    Test that a nav with non "include" statement will fail in strict build mode
+    """
+    mkdocs.files(
+        """
+        mkdocs.yml
+        | strict: true
+        | site_name: Test
+        | plugins:
+        |   - monorepo
+        |   - awesome-nav
+        | nav:
+        |   - Foo: foo.md
+        docs/
+            foo.md
+        """
+    )
+
+    with pytest.raises(Abort) as ex:
+        mkdocs.build()
+
+    assert str(ex.value) == EXCEPTION_MESSAGE
+
+    assert logs.from_plugin == [logs.warning(WARNING_MESSAGE)]
+
 
 def test_nav_wildcard(mkdocs, logs):
     mkdocs.files(
