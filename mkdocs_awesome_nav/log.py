@@ -12,6 +12,10 @@ def format_log_message(message: str, path: Optional[PurePosixPath | str] = None)
     return f"{message} [{path}]"
 
 
+def log_info(message: str, path: Optional[PurePosixPath | str] = None) -> None:
+    _logger.info(format_log_message(message, path))
+
+
 def log_warning(message: str, path: Optional[PurePosixPath | str] = None) -> None:
     _logger.warning(format_log_message(message, path))
 
