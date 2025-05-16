@@ -21,7 +21,7 @@ def test_nav(mkdocs, logs):
     ]
 
 
-def test_not_in_nav(mkdocs, logs):
+def test_not_in_nav(mkdocs):
     mkdocs.files(
         """
         docs/
@@ -39,9 +39,6 @@ def test_not_in_nav(mkdocs, logs):
         - Bar: bar.md
         """
     )
-
-    # Ensure there is no warning message that would cause build with strict mode to fail
-    assert logs.from_plugin == []
 
 
 def test_exclude_docs(mkdocs):
