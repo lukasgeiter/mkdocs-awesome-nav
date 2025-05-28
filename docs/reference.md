@@ -47,6 +47,8 @@ nav: #(11)!
     - Website: https://lukasgeiter.github.io/mkdocs-awesome-nav
 
 append_unmatched: true #(12)!
+
+use_index_title: true #(13)!
 ```
 
 1. Custom title for this directory. [Read more :material-arrow-right:](features/titles.md#custom-section-title)
@@ -79,3 +81,6 @@ append_unmatched: true #(12)!
    <span class="reference-default">`false`</span>
 11. Custom navigation for this directory. [Read more :material-arrow-right:](features/nav.md)
 12. Add unmatched files at the end. [Read more :material-arrow-right:](features/nav.md#unmatched-files)
+13. Use the title from `index.md` as the directory navigation title. [Read more :material-arrow-right:](features/titles.md#index-md-title)
+   <span class="reference-type">`bool`</span>
+   <span class="reference-default">`false`</span>
