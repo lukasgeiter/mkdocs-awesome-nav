@@ -20,7 +20,7 @@ class NavDirectory:
         self.path = directory.path
         self.config = self._load_config(parent_config)
         self._explicit_title = title or self.config.title
-        self._resolved_title = None
+        self._resolved_title: str | None = None
 
     def resolve(self, context: MkdocsFilesContext) -> NavSection | NavPage | list[NavSection | NavPage]:
         context.visit(self._directory)
@@ -65,13 +65,11 @@ class NavDirectory:
         index_path = self.path / "index.md"
         file_object = context.get_by_path(index_path)
         if file_object and isinstance(file_object, Page):
-            try:
-                markdown, metadata = get_data(file_object.file.content_string)
-                title = metadata.get("title")
-                if title:
-                    return title
-            except Exception:
-                return None
+            markdown, metadata = get_data(file_object.file.content_string)
+            title = metadata.get("title")
+            if title:
+                return title
+        return None
 
     def _flatten_section(self, section: NavSection) -> NavSection | NavPage | list[NavSection | NavPage]:
         if len(section.children) == 0:
