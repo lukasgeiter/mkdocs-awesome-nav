@@ -52,15 +52,15 @@ class NavDirectory:
     def _generate_title(self, context: MkdocsFilesContext) -> str:
         if self.config.preserve_directory_names:
             return self.path.name
-        
+
         # Check if we should use index.md title
         if self.config.use_index_title:
             index_title = self._get_index_md_title(context)
             if index_title:
                 return index_title
-        
+
         return dirname_to_title(self.path.name)
-    
+
     def _get_index_md_title(self, context: MkdocsFilesContext) -> Optional[str]:
         index_path = self.path / "index.md"
         file_object = context.get_by_path(index_path)
@@ -92,7 +92,7 @@ class NavDirectory:
         resolved_children: list[NavPage | NavSection | NavLink] = resolve_in_priority_order(parsed_children, context)
 
         title = self._resolved_title or dirname_to_title(self.path.name)
-        
+
         return section_type(resolved_children, path=self.path, title=title)
 
 

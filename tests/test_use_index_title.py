@@ -208,3 +208,30 @@ def test_use_index_title_with_preserve_directory_names(mkdocs):
             - Another page: user-guide/another-page.md
         """
     )
+
+
+def test_use_index_title_with_malformed_frontmatter(mkdocs):
+    """Test fallback when index.md has malformed frontmatter that causes parsing exception."""
+    mkdocs.docs(
+        """
+        user-guide/
+            index.md
+            | ---
+            | title: Unclosed quote "
+            | malformed: yaml: [invalid
+            | ---
+            | # User Guide
+            | 
+            | This index.md has malformed frontmatter.
+            another-page.md
+            .nav.yml
+            | use_index_title: true
+        """
+    )
+    mkdocs.build().assert_nav(
+        """
+        - User guide:
+            - Index: user-guide/index.md
+            - Another page: user-guide/another-page.md
+        """
+    )
