@@ -6,11 +6,18 @@
 plugins:
   - awesome-nav:
       filename: awesome_nav.yml #(1)!
+      logs: #(2)!
+        nav_override: warning
+        root_title: warning
+        root_hide: warning
+        no_matches: warning
 ```
 
-1. Name of your `awesome-nav` config files.
+1. Name of your `awesome-nav` config files. [Read more :material-arrow-right:](features/options.md#filename)
    <span class="reference-type">`str`</span>
    <span class="reference-default">`.nav.yml`</span>
+2. Override the log level of certain messages. [Read more :material-arrow-right:](features/options.md#log-level)
+   <span class="reference-type">`info` | `warning` | `error`</span>
 
 ## .nav.yml
 

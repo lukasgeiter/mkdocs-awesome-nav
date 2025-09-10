@@ -6,7 +6,7 @@ from mkdocs.utils.meta import get_data
 from natsort import natsort_keygen, ns
 from wcmatch import glob
 
-from mkdocs_awesome_nav.log import log_warning
+from mkdocs_awesome_nav import log
 from mkdocs_awesome_nav.nav.config import NavConfig
 from mkdocs_awesome_nav.nav.context import Directory, MkdocsFilesContext, Page
 from mkdocs_awesome_nav.nav.directory import NavDirectory
@@ -28,8 +28,10 @@ class NavPattern:
         matches = self._find_matches(context)
 
         if len(matches) == 0 and not self._ignore_no_matches:
-            log_warning(
-                f"The nav item '{self.pattern}' doesn't match any files or directories", self.config.config_path
+            log.write(
+                log.levels.no_matches or "warning",
+                f"The nav item '{self.pattern}' doesn't match any files or directories",
+                self.config.config_path,
             )
 
         items: list[NavPage | NavSection] = resolve_in_priority_order(matches, context)

@@ -195,6 +195,33 @@ def test_no_matches(mkdocs, logs):
     ]
 
 
+def test_no_matches_override_level(mkdocs, logs):
+    mkdocs.files(
+        """
+        docs/
+            foo.md
+            .nav.yml
+            | nav:
+            |   - foo.md
+            |   - bar_*.md
+        mkdocs.yml
+        | site_name: Test
+        | plugins:
+        |   - awesome-nav:
+        |       logs:
+        |         no_matches: error
+        """
+    )
+    mkdocs.build().assert_nav(
+        """
+        - Foo: foo.md
+        """
+    )
+    assert logs.from_plugin == [
+        logs.error("awesome-nav: The nav item 'bar_*.md' doesn't match any files or directories [.nav.yml]")
+    ]
+
+
 def test_no_matches_nested(mkdocs, logs):
     mkdocs.docs(
         """

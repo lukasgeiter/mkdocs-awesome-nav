@@ -73,3 +73,26 @@ def test_root(mkdocs, logs):
         """
     )
     assert logs.from_plugin == [logs.warning("awesome-nav: 'hide' option has no effect at the top level [.nav.yml]")]
+
+
+def test_root_log_level(mkdocs, logs):
+    mkdocs.files(
+        """
+        docs/
+            foo.md
+            .nav.yml
+            | hide: true
+        mkdocs.yml
+        | site_name: Test
+        | plugins:
+        |   - awesome-nav:
+        |       logs:
+        |         root_hide: info
+        """
+    )
+    mkdocs.build().assert_nav(
+        """
+        - Foo: foo.md
+        """
+    )
+    assert logs.from_plugin == [logs.info("awesome-nav: 'hide' option has no effect at the top level [.nav.yml]")]

@@ -113,6 +113,29 @@ def test_directory_override_root(mkdocs, logs):
     assert logs.from_plugin == [logs.warning("awesome-nav: 'title' option has no effect at the top level [.nav.yml]")]
 
 
+def test_directory_override_root_log_level(mkdocs, logs):
+    mkdocs.files(
+        """
+        docs/
+            foo.md
+            .nav.yml
+            | title: Title
+        mkdocs.yml
+        | site_name: Test
+        | plugins:
+        |   - awesome-nav:
+        |       logs:
+        |         root_title: info
+        """
+    )
+    mkdocs.build().assert_nav(
+        """
+        - Foo: foo.md
+        """
+    )
+    assert logs.from_plugin == [logs.info("awesome-nav: 'title' option has no effect at the top level [.nav.yml]")]
+
+
 def test_preserve_directory_names(mkdocs):
     mkdocs.docs(
         """

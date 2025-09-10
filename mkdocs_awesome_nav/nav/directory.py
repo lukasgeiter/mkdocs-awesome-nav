@@ -4,7 +4,8 @@ from mkdocs.utils import dirname_to_title
 from pydantic import ValidationError
 from yaml import YAMLError
 
-from mkdocs_awesome_nav.log import format_log_message, log_error, log_warning
+from mkdocs_awesome_nav import log
+from mkdocs_awesome_nav.log import format_log_message
 from mkdocs_awesome_nav.nav.config import ConfigModel, NavConfig
 from mkdocs_awesome_nav.nav.context import Directory, MkdocsFilesContext
 from mkdocs_awesome_nav.nav.link import NavLink
@@ -30,11 +31,14 @@ class NavDirectory:
             try:
                 return NavConfig.from_file(config_file, parent=parent_config)
             except YAMLError as e:
-                log_error(format_log_message("Parsing error", config_file.src_uri) + "\n" + str(e))
+                log.write(
+                    "error",
+                    format_log_message("Parsing error", config_file.src_uri) + "\n" + str(e),
+                )
             except ValidationError as e:
                 lines = str(e).splitlines()
                 lines[0] = format_log_message("Validation error", config_file.src_uri)
-                log_error("\n".join(lines))
+                log.write("error", "\n".join(lines))
 
         return NavConfig(ConfigModel(), directory_path=self.path, parent=parent_config)
 
@@ -70,9 +74,17 @@ class RootNavDirectory(NavDirectory):
         super().__init__(directory, title="root")
 
         if self.config.title is not None:
-            log_warning("'title' option has no effect at the top level", self.config.config_path)
+            log.write(
+                log.levels.root_title or "warning",
+                "'title' option has no effect at the top level",
+                self.config.config_path,
+            )
         if self.config.hide:
-            log_warning("'hide' option has no effect at the top level", self.config.config_path)
+            log.write(
+                log.levels.root_hide or "warning",
+                "'hide' option has no effect at the top level",
+                self.config.config_path,
+            )
 
     def resolve(self, context: MkdocsFilesContext) -> NavSection:
         return super()._create_section(context, section_type=RootSection)
