@@ -11,13 +11,13 @@ from mkdocs_awesome_nav.nav.context import Directory, MkdocsFilesContext
 from mkdocs_awesome_nav.nav.link import NavLink
 from mkdocs_awesome_nav.nav.page import NavPage
 from mkdocs_awesome_nav.nav.section import NavSection, RootSection
-
+from mkdocs.config import Config
 
 class NavDirectory:
-    def __init__(self, directory: Directory, *, parent_config: Optional[NavConfig] = None, title: Optional[str] = None):
+    def __init__(self, directory: Directory, *, parent_config: Optional[NavConfig] = None, title: Optional[str] = None, config: Optional[Config] = None):
         self._directory = directory
         self.path = directory.path
-        self.config = self._load_config(parent_config)
+        self.config = self._load_config(parent_config, config)
         self._title = title or self.config.title or self._generate_title()
 
     def resolve(self, context: MkdocsFilesContext) -> NavSection | NavPage | list[NavSection | NavPage]:
@@ -25,11 +25,11 @@ class NavDirectory:
         section = self._create_section(context)
         return self._flatten_section(section)
 
-    def _load_config(self, parent_config: Optional[NavConfig]):
+    def _load_config(self, parent_config: Optional[NavConfig], config: Optional[Config]):
         config_file = self._directory.config_file
         if config_file is not None:
             try:
-                return NavConfig.from_file(config_file, parent=parent_config)
+                return NavConfig.from_file(config_file, parent=parent_config, config=config)
             except YAMLError as e:
                 log.write(
                     "error",
@@ -70,8 +70,8 @@ class NavDirectory:
 
 
 class RootNavDirectory(NavDirectory):
-    def __init__(self, directory: Directory):
-        super().__init__(directory, title="root")
+    def __init__(self, directory: Directory, config: Config):
+        super().__init__(directory, title="root", config=config)
 
         if self.config.title is not None:
             log.write(

@@ -5,6 +5,8 @@ from pathlib import PurePosixPath
 from typing import Annotated, Literal, Optional
 
 import yaml
+from jinja2 import Environment
+from mkdocs.config import Config
 from mkdocs.structure.files import File
 from pydantic import BaseModel, Field, RootModel
 
@@ -120,10 +122,10 @@ class NavConfig:
         )
 
     @staticmethod
-    def from_file(file: File, parent: Optional[NavConfig] = None) -> NavConfig:
+    def from_file(file: File, parent: Optional[NavConfig] = None, config: Optional[Config] = None) -> NavConfig:
         path = PurePosixPath(file.src_uri)
         return NavConfig(
-            ConfigModel.from_yaml(file.content_string),
+            ConfigModel.from_yaml(file.content_string, config),
             directory_path=path.parent,
             parent=parent,
             config_path=path,
@@ -232,6 +234,9 @@ class ConfigModel(BaseModel):
     append_unmatched: Optional[bool] = None
 
     @staticmethod
-    def from_yaml(contents: str) -> ConfigModel:
-        data = yaml.safe_load(contents) or {}
+    def from_yaml(contents: str, config: Optional[Config] = None) -> ConfigModel:
+        env = Environment()
+        env.globals = {"config": config}
+        rendered = env.from_string(contents).render()
+        data = yaml.safe_load(rendered) or {}
         return ConfigModel(**data)

@@ -57,8 +57,8 @@ class MkdocsFixture:
     def docs(self, template: str):
         self.files(template, Path("docs"))
 
-    def build(self):
-        config = load_config()
+    def build(self, **kwargs):
+        config = load_config(**kwargs)
         nav_assertion = NavAssertionPlugin()
         config.plugins["nav-assertion"] = nav_assertion
         build(config)

@@ -35,7 +35,7 @@ class AwesomeNavPlugin(BasePlugin[AwesomeNavConfig]):
                 file.page = None
 
         original_nav_config = config.nav
-        config.nav = RootNavDirectory(context.root).resolve(context).to_mkdocs_config()
+        config.nav = RootNavDirectory(context.root, config).resolve(context).to_mkdocs_config()
         nav = get_navigation(files, config)
         config.nav = original_nav_config
 
