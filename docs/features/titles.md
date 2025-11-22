@@ -77,7 +77,7 @@ docs/
 
 To use the title from an `index.md` file as the directory navigation title:
 
-``` tab | `true`
+/// tab | `true`
 <div class="awesome-example" markdown>
 ```yaml title=".nav.yml"
 use_index_title: true
