@@ -19,15 +19,13 @@ class NavDirectory:
         self._directory = directory
         self.path = directory.path
         self.config = self._load_config(parent_config)
-        self._explicit_title = title or self.config.title
-        self._resolved_title: str | None = None
+        self._title = title or self.config.title
 
     def resolve(self, context: MkdocsFilesContext) -> NavSection | NavPage | list[NavSection | NavPage]:
         context.visit(self._directory)
 
-        # Generate title if not already set
-        if self._resolved_title is None:
-            self._resolved_title = self._explicit_title or self._generate_title(context)
+        if self._title is None:
+            self._title = self._generate_title(context)
 
         section = self._create_section(context)
         return self._flatten_section(section)
@@ -89,7 +87,7 @@ class NavDirectory:
 
         resolved_children: list[NavPage | NavSection | NavLink] = resolve_in_priority_order(parsed_children, context)
 
-        title = self._resolved_title or dirname_to_title(self.path.name)
+        title = self._title or dirname_to_title(self.path.name)
 
         return section_type(resolved_children, path=self.path, title=title)
 

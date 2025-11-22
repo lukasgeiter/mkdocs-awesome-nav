@@ -1,4 +1,4 @@
-def test_use_index_title_disabled_by_default(mkdocs):
+def test_disabled_by_default(mkdocs):
     """Test that index.md title is not used when the feature is disabled (default)."""
     mkdocs.docs(
         """
@@ -20,7 +20,7 @@ def test_use_index_title_disabled_by_default(mkdocs):
     )
 
 
-def test_use_index_title_enabled_via_local_config(mkdocs):
+def test_enabled_via_local_config(mkdocs):
     """Test that index.md title is used when enabled via local .nav.yml configuration."""
     mkdocs.docs(
         """
@@ -44,7 +44,7 @@ def test_use_index_title_enabled_via_local_config(mkdocs):
     )
 
 
-def test_use_index_title_explicit_title_override(mkdocs):
+def test_explicit_title_override(mkdocs):
     """Test that explicitly set title overrides index.md title."""
     mkdocs.docs(
         """
@@ -69,7 +69,7 @@ def test_use_index_title_explicit_title_override(mkdocs):
     )
 
 
-def test_use_index_title_external_override(mkdocs):
+def test_external_override(mkdocs):
     """Test that externally specified title overrides index.md title."""
     mkdocs.docs(
         """
@@ -96,7 +96,7 @@ def test_use_index_title_external_override(mkdocs):
     )
 
 
-def test_use_index_title_no_metadata(mkdocs):
+def test_no_metadata(mkdocs):
     """Test fallback to directory name when index.md has no title metadata."""
     mkdocs.docs(
         """
@@ -119,7 +119,7 @@ def test_use_index_title_no_metadata(mkdocs):
     )
 
 
-def test_use_index_title_inheritance(mkdocs):
+def test_inheritance(mkdocs):
     """Test that use_index_title setting is inherited from parent configs."""
     mkdocs.docs(
         """
@@ -151,7 +151,7 @@ def test_use_index_title_inheritance(mkdocs):
     )
 
 
-def test_use_index_title_local_override_inheritance(mkdocs):
+def test_local_override_inheritance(mkdocs):
     """Test that local config can override inherited use_index_title setting."""
     mkdocs.docs(
         """
@@ -185,7 +185,7 @@ def test_use_index_title_local_override_inheritance(mkdocs):
     )
 
 
-def test_use_index_title_with_preserve_directory_names(mkdocs):
+def test_with_preserve_directory_names(mkdocs):
     """Test interaction with preserve_directory_names setting."""
     mkdocs.docs(
         """
