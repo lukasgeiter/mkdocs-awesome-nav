@@ -87,9 +87,7 @@ class NavDirectory:
 
         resolved_children: list[NavPage | NavSection | NavLink] = resolve_in_priority_order(parsed_children, context)
 
-        title = self._title or dirname_to_title(self.path.name)
-
-        return section_type(resolved_children, path=self.path, title=title)
+        return section_type(resolved_children, path=self.path, title=self._title)
 
 
 class RootNavDirectory(NavDirectory):
