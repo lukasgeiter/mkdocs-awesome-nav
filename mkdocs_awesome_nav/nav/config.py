@@ -69,6 +69,16 @@ class NavConfig:
         )
 
     @cached_property
+    def use_index_title(self) -> bool:
+        return (
+            self._model.use_index_title
+            if self._model.use_index_title is not None
+            else self._parent.use_index_title
+            if self._parent is not None
+            else False
+        )
+
+    @cached_property
     def sort(self) -> SortConfig:
         by = self._model.sort.by
         direction = self._model.sort.direction
@@ -223,6 +233,7 @@ class ConfigModel(BaseModel):
     hide: bool = False
     flatten_single_child_sections: Optional[bool] = None
     preserve_directory_names: Optional[bool] = None
+    use_index_title: Optional[bool] = None
     sort: SortConfig = SortConfig()
     ignore: IgnoreConfig = IgnoreConfig()
     nav: list[NavConfigItem] = [
