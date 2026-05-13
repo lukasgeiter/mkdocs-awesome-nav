@@ -13,7 +13,7 @@ classifiers = [
 ]
 requires-python = ">=3.10"
 dependencies = [
-    "mkdocs>=1.6.0",
+    "mkdocs-ng",
     "natsort>=8.1.0",
     "pydantic>=2.0.2; python_version<'3.13'",
     "pydantic>=2.8.1; python_version>='3.13'",
