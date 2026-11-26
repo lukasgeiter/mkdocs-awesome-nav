@@ -81,6 +81,6 @@ use_index_title: true #(13)!
    <span class="reference-default">`false`</span>
 11. Custom navigation for this directory. [Read more :material-arrow-right:](features/nav.md)
 12. Add unmatched files at the end. [Read more :material-arrow-right:](features/nav.md#unmatched-files)
-13. Use the title from `index.md` as the directory navigation title. [Read more :material-arrow-right:](features/titles.md#index-md-title)
+13. Use the title from `index.md` as the directory navigation title. [Read more :material-arrow-right:](features/titles.md#indexmd-title)
    <span class="reference-type">`bool`</span>
    <span class="reference-default">`false`</span>
